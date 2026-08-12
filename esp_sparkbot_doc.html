@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESP-SparkBot 项目汇报</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Microsoft YaHei", system-ui, sans-serif;
+            background: #0f1419;
+            color: #e6e6e6;
+            line-height: 1.8;
+        }
+        /* 顶部导航 */
+        .navbar {
+            background: #1a2332;
+            padding: 16px 40px;
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            border-bottom: 1px solid #2a3a4f;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .navbar .logo {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #58a6ff;
+            margin-right: 20px;
+        }
+        .navbar a {
+            color: #c9d1d9;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+        .navbar a:hover, .navbar a.active { color: #58a6ff; }
+        /* 主体布局 */
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 40px 50px;
+        }
+        /* 内容区 */
+        .content h1 {
+            font-size: 2rem;
+            color: #58a6ff;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #2a3a4f;
+        }
+        .content h2 {
+            font-size: 1.4rem;
+            color: #79c0ff;
+            margin: 32px 0 16px;
+        }
+        .content h3 {
+            font-size: 1.1rem;
+            color: #a5d6ff;
+            margin: 24px 0 12px;
+        }
+        .content p { margin-bottom: 14px; color: #c9d1d9; }
+        .content ul, .content ol {
+            padding-left: 28px;
+            margin-bottom: 16px;
+        }
+        .content li { margin-bottom: 6px; color: #c9d1d9; }
+        /* 代码块 */
+        pre {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 16px 20px;
+            overflow-x: auto;
+            margin: 16px 0;
+        }
+        code {
+            font-family: Consolas, "Courier New", monospace;
+            color: #79c0ff;
+            font-size: 0.9rem;
+        }
+        pre code { color: #e6e6e6; }
+        /* 表格 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+        }
+        th, td {
+            border: 1px solid #30363d;
+            padding: 10px 14px;
+            text-align: left;
+        }
+        th {
+            background: #161b22;
+            color: #58a6ff;
+        }
+        /* 提示框 */
+        .tip, .warn {
+            padding: 14px 18px;
+            border-radius: 8px;
+            margin: 16px 0;
+            border-left: 4px solid;
+        }
+        .tip {
+            background: #161b22;
+            border-color: #58a6ff;
+        }
+        .warn {
+            background: #1c1616;
+            border-color: #f85149;
+        }
+        .tip strong, .warn strong {
+            display: block;
+            margin-bottom: 6px;
+        }
+        /* 区块切换 */
+        .section { display: none; }
+        .section.active { display: block; }
+        /* 流程图 */
+        .flow {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 16px 0;
+            font-family: Consolas, monospace;
+            font-size: 0.85rem;
+            line-height: 2;
+            color: #a5d6ff;
+            text-align: center;
+        }
+        .flow .arrow { color: #58a6ff; }
+        /* 图片 */
+        .content img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin: 12px 0;
+            border: 1px solid #30363d;
+        }
+        /* 页脚 */
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #6e7681;
+            font-size: 0.85rem;
+            border-top: 1px solid #2a3a4f;
+            margin-top: 40px;
+        }
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .container { padding: 24px; }
+            .navbar { padding: 12px 20px; gap: 20px; flex-wrap: wrap; }
+            .navbar .logo { width: 100%; margin-bottom: 8px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 顶部导航 -->
+<div class="navbar">
+    <div class="logo">ESP-SparkBot 项目汇报</div>
+    <a href="#" onclick="showSection('appearance')" class="active" id="nav-appearance">外观描述</a>
+    <a href="#" onclick="showSection('function')" id="nav-function">功能描述</a>
+    <a href="#" onclick="showSection('improvement')" id="nav-improvement">改进方向</a>
+    <a href="#" onclick="showSection('problems')" id="nav-problems">问题总结</a>
+</div>
+
+<!-- 主体内容 -->
+<div class="container">
+    <div class="content">
+
+        <!-- 1. 外观描述 -->
+        <div class="section active" id="appearance">
+            <h1>外观描述</h1>
+            <img src="images/picture0.jpg" alt="机器人整体外观" width="700">
+            <p>本项目基于 ESP-SparkBot 小智AI机器人主板改造，整体为两轮小车造型，以功能性为核心设计，结构紧凑，便于后续扩展。</p>
+
+            <h2>整体外观</h2>
+            <ul>
+                <li>主控板水平固定于车身顶部，集成麦克风、扬声器与核心控制电路</li>
+                <li>车身两侧搭载直流减速电机，配套橡胶防滑轮</li>
+                <li>底部预留电池仓，采用3.7V锂电池供电</li>
+                <li>前端设置Type-C接口，支持固件烧录与供电调试</li>
+            </ul>
+
+            <h2>主板细节</h2>
+ <div style="display: flex; gap:16px; margin:15px 0; flex-wrap: wrap;">
+    <img src="images/dianluban.png" alt="主板细节图" style="flex:1; min-width:280px; object-fit: contain;">
+    <img src="images/dianluban2.png" alt="主板细节图" style="flex:1; min-width:280px; object-fit: contain;">
+    <img src="images/dianluban3.png" alt="主板细节图" style="flex:1; min-width:280px; object-fit: contain;">
+</div>
+            <ul>
+                <li>核心为 ESP32-S3 主控芯片，具备WiFi与蓝牙通信能力</li>
+                <li>板载数字麦克风与功率放大电路，无需额外音频模块</li>
+                <li>引出电机驱动接口、GPIO扩展口，支持外接传感器</li>
+            </ul>
+        </div>
+
+        <!-- 2. 功能描述 -->
+        <div class="section" id="function">
+            <h1>功能描述</h1>
+
+            <h2>一、硬件功能</h2>
+            <table>
+                <thead>
+                    <tr><th>模块</th><th>功能说明</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>主控单元</td><td>ESP32-S3 芯片，负责整机逻辑控制、WiFi通信、音频处理</td></tr>
+                    <tr><td>运动系统</td><td>双路直流减速电机 + H桥驱动，实现前进、后退、差速转向、停车</td></tr>
+                    <tr><td>音频输入</td><td>板载数字麦克风，采集用户语音指令</td></tr>
+                    <tr><td>音频输出</td><td>扬声器 + 功放电路，播放TTS合成语音与提示音</td></tr>
+                    <tr><td>供电系统</td><td>3.7V锂电池供电，Type-C接口支持充电与联机调试</td></tr>
+                    <tr><td>通信模块</td><td>WiFi 局域网通信，与PC端代理程序进行数据交互</td></tr>
+                </tbody>
+            </table>
+
+            <h2>二、AI 功能</h2>
+            <h3>1. 语音交互</h3>
+            <ul>
+                <li>支持语音唤醒与指令识别，将用户口语转化为文本指令</li>
+                <li>支持TTS语音合成，将执行结果以语音形式播报反馈</li>
+                <li>采用"端侧采集 + 主机计算"架构，机器人本身不运行大模型</li>
+            </ul>
+
+            <h3>2. 语义解析与控制</h3>
+            <ul>
+                <li>自然语言指令经过AI解析，转化为标准化控制指令</li>
+                <li>可直接控制小车本体运动：前进、后退、左转、右转</li>
+                <li>可通过WiFi向同一局域网内的电脑发送操作指令</li>
+            </ul>
+
+            <h3>3. 日常功能</h3>
+            <ul>
+                <li>可以用自然语言进行聊天</li>
+                <li>可以查询天气和时间</li>
+                <li>可以移动</li>
+            </ul>
+
+            <div class="flow">
+                语音输入 <span class="arrow">→</span> 机器人拾音转文字<br>
+                <span class="arrow">↓</span><br>
+                WiFi发送至PC代理 <span class="arrow">→</span> AI解析意图<br>
+                <span class="arrow">↓</span><br>
+                执行电脑操作 / 控制小车运动 <span class="arrow">→</span> 语音反馈结果
+            </div>
+        </div>
+
+        <!-- 3. 改进方向 -->
+        <div class="section" id="improvement">
+            <h1>可能的改进方向</h1>
+
+            <h2>一、硬件优化</h2>
+            <ul>
+                <li><strong>感知扩展</strong>：加装超声波/红外避障传感器，实现自主避障与路径规划</li>
+                <li><strong>视觉能力</strong>：增加摄像头模块，拓展人脸识别、物体识别、视觉跟随等功能</li>
+                <li><strong>供电升级</strong>：加入电量检测电路，实现低电量提醒与自动返航充电</li>
+                <li><strong>运动性能</strong>：升级电机与悬挂结构，提升地形适应能力与行驶平稳性</li>
+                <li><strong>结构优化</strong>：设计定制化外壳，提升整体性与防尘防水能力</li>
+            </ul>
+
+            <h2>二、软件优化</h2>
+            <ul>
+                <li><strong>通信稳定性</strong>：增加心跳检测与断线自动重连机制，降低WiFi波动影响</li>
+                <li><strong>响应速度</strong>：优化语音识别链路，降低端到端交互延迟</li>
+                <li><strong>配置便捷性</strong>：新增Web配置页面，无需重新烧录即可修改WiFi参数与PC地址</li>
+                <li><strong>安全性</strong>：加入指令白名单机制，防止恶意指令越权操作</li>
+            </ul>
+
+            <h2>三、功能扩展</h2>
+            <ul>
+                <li>支持更多PC端操作：文件管理、程序启动、桌面控制等</li>
+                <li>增加手机APP控制端，脱离电脑也可直接操控机器人</li>
+                <li>支持多机器人组网，实现多机协同作业</li>
+                <li>接入智能家居生态，语音控制家中智能设备</li>
+                <li>整合休闲功能，有效利用触控系统相关资源</li>
+            </ul>
+        </div>
+
+        <!-- 4. 遇到的问题 -->
+        <div class="section" id="problems">
+            <h1>制作过程遇到的问题</h1>
+
+            <h2>一、组装阶段问题</h2>
+            <ul>
+                <li><strong>组装错误</strong>：初次组装开关发生断裂</li>
+                <li><strong>外观问题</strong>：打印错误导致部分零件未第一时间完成组装</li>
+                <li><strong>供电接触不良</strong>：屏幕有时回发生频闪</li>
+            </ul>
+
+            <h2>二、程序烧录阶段问题</h2>
+            <ul>
+                <li><strong>串口识别不稳定</strong>：电脑有时无法识别开发板端口，需要重新插拔数据线或安装对应驱动</li>
+                <li><strong>下载模式异常</strong>：烧录失败时需要手动按住BOOT键并复位，强制进入下载模式</li>
+                <li><strong>开发板型号选错</strong>：IDE中未选择正确的ESP32-S3型号，导致烧录后程序无法运行或功能异常</li>
+                <li><strong>参数配置错误</strong>：WiFi名称密码填写错误，程序会卡在连接循环，表现为设备无响应</li>
+                <li><strong>自定义改造</strong>：自定义程序未能成功实现功能，后期加强部分</li>
+            </ul>
+
+            <h2>三、环境安装问题</h2>
+            <ul>
+                <li>依赖包下载默认走国外源，网络卡顿严重，经常超时失败</li>
+                <li>解决方式：切换国内镜像源（清华源、阿里源），大幅提升下载速度与成功率</li>
+            </ul>
+
+            <div class="tip">
+                <strong>收获总结</strong>
+                通过本次制作，掌握了ESP32开发、TCP网络通信、软硬件联调排查的基本方法；理解了模块化分层设计的重要性——将硬件抽象层、通信层、业务逻辑层分开，出现问题时可以快速定位；同时养成了记录问题与解决方案的习惯，避免重复踩坑。
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer">
+        ESP-SparkBot 小智AI机器人改造项目汇报
+    </div>
+</div>
+
+<script>
+    function showSection(id) {
+        // 切换内容区块
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        // 切换顶部导航高亮
+        document.querySelectorAll('.navbar a').forEach(a => a.classList.remove('active'));
+        document.getElementById('nav-' + id).classList.add('active');
+        // 滚动到顶部
+        window.scrollTo(0, 0);
+    }
+</script>
+
+</body>
+</html>
